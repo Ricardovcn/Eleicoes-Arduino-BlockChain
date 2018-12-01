@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <head>
+      <meta charset="UTF-8">
+      <title>Cadastrar Candidato</title>
+  </head>
+
+  <h1>Cadastrar Candidato</h1>
+
+  <form method=post enctype=multipart/form-data action="http://127.0.0.1:5000/cadastrar">
+    <p>Nome Candidato:</p>
+    <p><input type="text" name="nomeCandidato" /></p>
+
+    <p>Numero Candidato:</p>
+    <p><input type="text" name="numCandidato" /></p>
+
+    <p>Partido</p>
+    <p><input type="text" name="partido" /></p>
+
+    <p>Foto Candidato:</p>
+    <p><input type="file" name="file">
+
+    <input type="submit" value="Cadastrar">
+  </form>
+</body>
+</html>
