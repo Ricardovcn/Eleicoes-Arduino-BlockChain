@@ -1,0 +1,20 @@
+- Para instalar Web3
+
+    sudo apt-get update
+    sudo apt-get install python3-dev
+    sudo apt-get install libevent-dev
+    pip3 install --upgrade web3
+
+- Para instalar ganache-cli
+
+    sudo apt-get install build-essential libssl-dev
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+    # Instalar a última versão estável do Node.js
+    nvm install 10.14.1
+
+    npm i -g ganache-cli
+
+
+
+https://medium.com/coinmonks/how-to-develop-ethereum-contract-using-python-flask-9758fe65976e
