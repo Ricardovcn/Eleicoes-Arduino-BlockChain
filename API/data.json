@@ -1,0 +1,97 @@
+{
+    "abi": [
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_numero",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCandidato",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_numero",
+                    "type": "uint256"
+                }
+            ],
+            "name": "votarCandidato",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_numero",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_nome",
+                    "type": "string"
+                },
+                {
+                    "name": "_partido",
+                    "type": "string"
+                }
+            ],
+            "name": "adicionarCandidato",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getNumerosDosCandidatos",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        }
+    ],
+    "contract_address": "0x0F7b4668433d4cc6ff9bf794c652990aaA7d316d"
+}
