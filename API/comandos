@@ -15,6 +15,13 @@
 
     npm i -g ganache-cli
 
+- Para instalar solidity compiler.
+
+    pip install py-solc
+    python -m solc.install v0.4.25
 
 
-https://medium.com/coinmonks/how-to-develop-ethereum-contract-using-python-flask-9758fe65976e
+    sudo add-apt-repository ppa:ethereum/ethereum
+    sudo apt-get update
+    sudo apt-get install solc
+
