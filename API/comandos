@@ -17,6 +17,10 @@
 
 - Para instalar solidity compiler.
 
+    # Não é necessério instalar por enquanto, pois o ABI e ADDRESS do contrato eleição
+    # foram inseridos diretamente no 'deploy_contract.py'. Não foi possível compilar
+    # o arquivo '.sol' a partir do solidity compiler.
+
     pip install py-solc
     python -m solc.install v0.4.25
 
