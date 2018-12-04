@@ -4,6 +4,7 @@ import os
 from flask import Flask, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 import json
+import eleicao
 
 UPLOAD_FOLDER = './imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -23,20 +24,33 @@ def inicio():
         return json.dumps({'erro': 'Utilize o metodo GET para acessar essa páginas.'})
 
 
-@app.route('/candidato/<voto>', methods=['GET'])
-def candidato(voto):
-    if(int(voto)==17):
-        return json.dumps({'nome': "Bulbassauro"})
-    elif(int(voto)==13):
-        return json.dumps({'nome': "Andrade"})
-    elif(int(voto)==12):
-        return json.dumps({'nome': "Cangaciro"})
-    else:
-        return json.dumps({'nome': "Voto Nulo"})
+@app.route('/candidato/<int:numero>', methods=['GET'])
+def candidato(numero):
+    dados = None
 
-@app.route('/voto/<voto>', methods=['GET'])
-def vota(voto):
+    try:
+        dados = eleicao.checar_candidato(numero)
+    except Exception as e:
+        print(e)
+
+    if not dados:
+        return json.dumps({'nome': 'Não existe'})
+
+    return json.dumps(dados)
+
+
+@app.route('/voto/<int:numero>', methods=['GET'])
+def vota(numero):
+
+    try:
+        status = eleicao.votar_candidato(numero)
+    except Exception as e:
+        return json.dumps({'mensagem': 'Erro'})
+        print(e)
+
     return json.dumps({'mensagem': 'Confirmado'})
+
+
 
 # A partir do cadastro de um formulário, a API obtém os valores
 # escolhidos pelo usuário, e a imagem do candidato.
@@ -77,5 +91,10 @@ def cadastrarCandidato():
         return json.dumps(candidato)
     return render_template('index.html')
 
+
+@app.route('/apurar', methods=['GET','POST'])
+def apurar():
+    return json.dumps(eleicao.apurar_votacao())
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True , host='10.3.1.21')
