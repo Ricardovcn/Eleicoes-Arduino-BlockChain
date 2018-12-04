@@ -10,9 +10,9 @@ const byte qtdColunas = 4; //QUANTIDADE DE COLUNAS DO TECLADO
 //CONSTRUÇÃO DA MATRIZ DE CARACTERES
 char matriz_teclas[qtdLinhas][qtdColunas] = {
   {'1','2','3','A'},
-  {'4','5','6','B'},
+  {'4','5','6','A'},
   {'7','8','9','C'},
-  {'*','0','#','D'}
+  {'A','0','A','D'}
 };
 
 byte PinosqtdLinhas[qtdLinhas] = {22, 24, 26, 28}; //PINOS UTILIZADOS PELAS LINHAS
@@ -24,6 +24,7 @@ Keypad teclado = Keypad( makeKeymap(matriz_teclas), PinosqtdLinhas, PinosqtdColu
 String cand_numero = "";
 String cand_nome = "";
 String op ="";
+bool first = true;
 
 char teclado_ler(){
   char tecla_pressionada = teclado.getKey(); //VERIFICA SE ALGUMA DAS TECLAS FOI PRESSIONADA
@@ -64,9 +65,31 @@ void lcd_confirmar(){
   cand_limpar();
 }
 
+void lcd_erro(){
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Erro ao votar!");
+  delay(2000);
+  lcd_limpar();
+  cand_limpar();
+}
+
+void lcd_nao_existe(){
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Nao existe!");
+  delay(2000);
+  lcd_limpar();
+  cand_limpar();
+}
+
 String bluez_ler(){
   String command = "";
-  delay(2000);
+  if(first){
+    first = false;
+    delay(5000);
+  }else
+    delay(2000);
   if (Serial3.available()) {
     while(Serial3.available()){
      delay(10);
@@ -90,6 +113,10 @@ void func_C(){
   cand_nome = bluez_ler();
   if(cand_nome == "Confirmado")
      lcd_confirmar();
+  else if(cand_nome == "Erro")
+     lcd_erro();
+  else if(cand_nome == "Não existe")
+      lcd_nao_existe();
   else
      lcd_cat_nome(cand_nome);
 }
@@ -110,7 +137,10 @@ void loop() {
         cand_limpar();
         break;
       case 'C':
-        func_C();
+        if(cand_numero.length() > 0)
+          func_C();
+        break;
+      case 'A':
         break;
       default:
         cand_numero += tecla;
