@@ -1,27 +1,116 @@
 <!DOCTYPE html>
-<html>
-<body>
+<html lang="pt-br">
+
   <head>
-      <meta charset="UTF-8">
-      <title>Cadastrar Candidato</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eleicões {{ nome }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/scrolling-nav.css') }}" rel="stylesheet">
+
   </head>
 
-  <h1>Cadastrar Candidato</h1>
+  <body id="page-top">
 
-  <form method=post enctype=multipart/form-data action="http://127.0.0.1:5000/cadastrar">
-    <p>Nome Candidato:</p>
-    <p><input type="text" name="nomeCandidato" /></p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">{{ nome }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">Cadastrar Candidato</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#services">Apurar Votação</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <p>Numero Candidato:</p>
-    <p><input type="text" name="numCandidato" /></p>
+    <header class="bg-primary text-white">
+      <div class="container text-center">
+        <h1>Bem-vindo ao sistema de votação {{ nome }}!</h1>
+        <p class="lead">O {{ nome }} é um sistema para votação simples feito em Python, usando Arduíno e Blockchain.</p>
+      </div>
+    </header>
 
-    <p>Partido</p>
-    <p><input type="text" name="partido" /></p>
+    <div class="container">
+    <h1 class="text-center">Cadastrar Candidato</h1>
 
-    <p>Foto Candidato:</p>
-    <p><input type="file" name="file">
 
-    <input type="submit" value="Cadastrar">
-  </form>
-</body>
+    <form method="POST" action="http://127.0.0.1:5000/cadastrar">
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">Nome do Candidato:</label>
+        <input type="text" class="form-control" name="nomeCandidato" placeholder="Candidato">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Número do Candidato:</label>
+        <input type="text" class="form-control" name="numCandidato" placeholder="Número">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Partido:</label>
+        <input type="text" class="form-control" name="partido" placeholder="Partido">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Foto do Candidato:</label>
+        <input type="file" class="form-control" name="file" placeholder="Partido">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+
+    <form method=post enctype=multipart/form-data action="http://127.0.0.1:5000/cadastrar">
+      <p>Nome Candidato:</p>
+      <p><input type="text" name="nomeCandidato" /></p>
+  
+      <p>Numero Candidato:</p>
+      <p><input type="text" name="numCandidato" /></p>
+  
+      <p>Partido</p>
+      <p><input type="text" name="partido" /></p>
+  
+      <p>Foto Candidato:</p>
+      <p><input type="file" name="file"></p>
+  
+      <p><input type="submit" value="Cadastrar"></p>
+    </form>
+  </div>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark fixed-bottom">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; {{ nome }} 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom JavaScript for this theme -->
+    <script src="{{ url_for('static', filename='js/scrolling-nav.js') }}"></script>
+
+  </body>
+
 </html>
