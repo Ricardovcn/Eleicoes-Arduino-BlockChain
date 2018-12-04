@@ -40,15 +40,15 @@
       </div>
     </nav>
 
-    <header class="bg-primary text-white">
+    <br>
+    <br>
+
+    <header class="valign-center" style="margin-top:100px;">
       <div class="container text-center">
         <h1>Bem-vindo ao sistema de votação {{ nome }}!</h1>
         <p class="lead">O {{ nome }} é um sistema para votação simples feito em Python, usando Arduíno e Blockchain.</p>
       </div>
     </header>
-
-    <br>
-    <br>
 
     {% if cadastrarCandidato %}
     <div class="container">
@@ -83,20 +83,27 @@
   {% endif %}
 
   {% if candidatoCadastrado %}
-      <div class="container">
+      <div class="container text-center">
+        <div class="alert alert-success" role="alert">
+          <h2>Candidato cadastrado com sucesso!</h2>
+
           
-
-
-
+          <h3><p>Nome: {{ candidatoCadastrado.nome}}</p></h3>
+          <h3><p>Número: {{ candidatoCadastrado.numeroCandidato }}</p></h3>
+          <h3><p>Partido: {{ candidatoCadastrado.partido}}</p></h3>
+          <div>
+          <img class="rounded-circle mr-3 text-center" style="width: 400px;height: 400px;" src="{{ url_for('static', filename='imagens/')}}{{candidatoCadastrado.nome_imagem}}">
+        </div>
+        </div>
       </div>
   {% endif %}
 
-  <br>
-  <br>
+  {% if erro %}
+  {% endif %}
 
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-dark fixed-bottom">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; {{ nome }} 2018</p>
       </div>
