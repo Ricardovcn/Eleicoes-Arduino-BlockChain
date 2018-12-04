@@ -47,11 +47,14 @@
       </div>
     </header>
 
+    <br>
+    <br>
+
+    {% if cadastrarCandidato %}
     <div class="container">
     <h1 class="text-center">Cadastrar Candidato</h1>
 
-
-    <form method="POST" action="http://127.0.0.1:5000/cadastrar">
+    <form method="POST" action="http://127.0.0.1:5000/cadastrar" enctype=multipart/form-data>
 
       <div class="form-group">
         <label for="exampleInputEmail1">Nome do Candidato:</label>
@@ -75,26 +78,25 @@
 
       <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
-
-    <form method=post enctype=multipart/form-data action="http://127.0.0.1:5000/cadastrar">
-      <p>Nome Candidato:</p>
-      <p><input type="text" name="nomeCandidato" /></p>
-  
-      <p>Numero Candidato:</p>
-      <p><input type="text" name="numCandidato" /></p>
-  
-      <p>Partido</p>
-      <p><input type="text" name="partido" /></p>
-  
-      <p>Foto Candidato:</p>
-      <p><input type="file" name="file"></p>
-  
-      <p><input type="submit" value="Cadastrar"></p>
-    </form>
   </div>
 
+  {% endif %}
+
+  {% if candidatoCadastrado %}
+      <div class="container">
+          
+
+
+
+      </div>
+  {% endif %}
+
+  <br>
+  <br>
+
+
     <!-- Footer -->
-    <footer class="py-5 bg-dark fixed-bottom">
+    <footer class="py-5 bg-dark">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; {{ nome }} 2018</p>
       </div>

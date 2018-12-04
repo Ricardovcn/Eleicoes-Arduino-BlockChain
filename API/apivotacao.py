@@ -1,9 +1,12 @@
 #coding: utf-8
 
 import os
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 import json
+
+
+NAME_APP = 'NOME-APLICACAO'
 
 UPLOAD_FOLDER = './imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -20,7 +23,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def inicio():
     if request.method == 'GET':
-        return render_template('index.html', nome='NOME-APLICACAO')
+        return render_template('index.html', nome=NAME_APP, cadastrarCandidato = True)
     else:
         return json.dumps({'erro': 'Utilize o metodo GET para acessar essa páginas.'})
 
@@ -71,13 +74,16 @@ def cadastrarCandidato():
             nomeImagem = nomeCandidato + '.' + filename.split('.')[1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], nomeImagem))
 
+
         candidato = {}
         candidato['nome'] = nomeCandidato
         candidato['numeroCandidato'] = int(request.form['numCandidato'])
         candidato['partido'] = request.form['partido']
         candidato['imagem'] = nomeImagem
         return json.dumps(candidato)
-    return render_template('index.html')
+
+
+    return render_template('index.html', nome=NAME_APP)
 
 if __name__ == '__main__':
     app.run(debug=True)
