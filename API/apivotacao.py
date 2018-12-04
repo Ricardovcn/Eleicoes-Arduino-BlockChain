@@ -16,10 +16,12 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def inicio():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('index.html', nome='NOME-APLICACAO')
     else:
         return json.dumps({'erro': 'Utilize o metodo GET para acessar essa páginas.'})
 
@@ -69,13 +71,13 @@ def cadastrarCandidato():
 
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
+            print('No file part')
             return redirect(request.url)
         file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
-            flash('No selected file')
+            print('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
