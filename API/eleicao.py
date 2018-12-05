@@ -2,12 +2,22 @@ from web3 import Web3
 from web3.exceptions import BadFunctionCallOutput
 from requests.exceptions import ConnectionError
 import json
+import hashlib
 
 
 ABI = None
 CONTRACT_ADDRESS = None
 w3 = None
 contract_eleicao = None
+
+def autenticar(senha):
+    m = hashlib.md5()
+    m.update(senha)
+    senha = m.hexdigest()
+    if senha == "7a3e1c7c45a215a4cbd11d441e63ec4f":
+        return True
+    return False
+
 
 def cadastrar_candidato(numero, nome, partido):
     try:
