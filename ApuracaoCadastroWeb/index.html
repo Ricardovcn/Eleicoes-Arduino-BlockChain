@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- PAGE settings -->
+  <title>Eleições TSI</title>
+  <meta name="description" content="Trabalho de WebServices">
+  <meta name="keywords">
+  <!-- CSS dependencies -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <!-- Script: Make my navbar transparent when the document is scrolled to top -->
+  <script src="js/navbar-ontop.js"></script>
+  <!-- Script: Animated entrance -->
+  <script src="js/animate-in.js"></script>
+</head>
+
+<body class="text-center">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md fixed-top bg-dark navbar-dark">
+    <div class="container">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbar2SupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="#">Apuração Parcial<br></a>
+          </li>
+        </ul>
+        <a class="btn navbar-btn mx-2 text-white btn-outline-light" href="#register">Cadastro de Candidatos<br></a>
+      </div>
+    </div>
+  </nav>
+  <!-- Cover -->
+  <div class="d-flex align-items-center section-aquamarine py-5 cover" style="background-image: url(&quot;assets/fotos/cover.jpg&quot;);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-white mt-5">
+          <h1 class="display-2 d-none d-md-block">Eleições TSI</h1>
+          <h1 class="display-4 d-block d-md-none"></h1>
+          <p class="">Trabalho Final da Disciplina de WebServices<br></p>
+          <a href="#total" class="btn btn-lg mt-4 btn-outline-light">Veja o resultado parcial da eleição!<br></a><i class="d-block fa fa-angle-down pt-5 fa-3x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Parallax section -->
+  <div class="py-5 section-parallax" style="background-image: url(&quot;assets/fotos/if.jpg&quot;);" id="total">
+    <div class="container my-5 bg-light p-4">
+      <div class="row mx-auto">
+        <div class="col-md-12">
+          <h1 class="mb-3">Total de Votos Válidos</h1>
+          <p class="w-100">5065 votos apurados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Speakers -->
+  <div class="py-5 bg-light" id="speakers" style="">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Candidatos<br></h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 col-lg-4 animate-in-left">
+          <a href="#">
+            <img src="assets/fotos/miranha.jpg" class="center-block img-fluid my-3 rounded-circle" width="300">
+            <h3 class="mb-0">Miranha</h3>
+            <p class="text-muted">154 votos</p>
+          </a>
+          <div class="row">
+            <div class="col-md-12 text-center animate-in-left">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width:27%">27%</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-4">
+          <a href="#">
+            <img src="assets/fotos/tata.jpg" class="center-block img-fluid my-3 rounded-circle" width="300">
+            <h3 class="mb-0"><b>O tata é Fota</b></h3>
+            <p class="text-muted">56 votos<br></p>
+            <div class="progress-bar progress-bar-striped" role="progressbar" style="width:12%">12%</div>
+          </a>
+        </div>
+        <div class="col-6 col-lg-4 animate-in-right">
+          <a href="#">
+            <img src="assets/fotos/marlon.jpg" class="center-block img-fluid my-3 rounded-circle" width="300">
+            <h3 class="mb-0"><b>Marlon Oliveira</b></h3>
+            <p class="text-muted">1786 votos</p>
+            <div class="progress-bar progress-bar-striped" role="progressbar" style="width:55%">55%</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5 section-aquamarine" id="register">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 text-md-left text-center">
+          <h1 class="text-white">Deseja adicionar novos candidatos?</h1>
+          <p>Nossa aplicação permite que os candidatos sejam gerenciados de forma a montar uma eleição com os candidatos escolhidos por você.&nbsp;</p>
+        </div>
+        <div class="col-md-4 align-self-center animate-in-right">
+          <a href="#" class="btn btn-lg btn-light my-3">Cadastre novos candidatos!<br></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="text-md-left text-center p-4 bg-dark text-light">
+    <div class="container">
+      <div class="row">
+        <div class="my-3 col-lg-4 col-md-4">
+          <h3>Equipe</h3>
+          <p class="text-muted">Wesley Rodrigues Miranda</p>
+        </div>
+        <div class="my-3 col-lg-4 col-md-4">
+          <form>
+            <fieldset class="form-group my-3"></fieldset>
+            <fieldset class="form-group my-3"></fieldset>
+          </form>
+        </div>
+        <div class="col-lg-4"> </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-muted">© 4º Período do Curso em Sistemas para a Internet - IF Sudeste MG - Campus Barbacena.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- JavaScript dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <!-- Script: Smooth scrolling between anchors in the same page -->
+  <script src="js/smooth-scroll.js" style=""></script>
+</body>
+
+</html>
