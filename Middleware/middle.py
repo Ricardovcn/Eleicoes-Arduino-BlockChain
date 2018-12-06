@@ -1,24 +1,22 @@
 import modulo_bluetooth as bluez
-import requests, json, random
+import requests, json, random, string
+from base64 import b64encode
 from Crypto.Cipher import AES
 
 passwd_criptografar = "webservices-2018"
 passwd_blockchain = "webservices-2018"
 
-cripto = AES.new(passwd_criptografar)
+cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)
 endereco = '10.3.1.21:5000'
 
 def _criptografar(data):
-    # Adiciona o caractere para separar o git dos dados.
-    data = json.dumps(data) + '#'
-    resto = len(data) % 16
+    data_send = {}
 
-    # Verifica se o tamanho é multiplo de 16,
-    # se não adiciona caracteres para que seja.
-    if resto > 0:
-        data = data + ''.join([random.choice(string.ascii_letters) for n in range(16 - resto)])
+    data_cript = cripto.encrypt(data.encode())
+    data_send['data'] = b64encode(data_cript).decode()
+    data_send['nonce'] = b64encode(cripto.nonce).decode()
 
-    return cripto.encrypt(data)
+    return data_send
 
 bluez.connect()
 
@@ -37,12 +35,12 @@ while True:
     else:
         uri = "http://{servidor}/voto/".format(servidor=endereco)
 
-        data = {
+        voto = {
             'voto': cand_num, 
             'passwd_blockchain': passwd_blockchain
         }
 
-        response = requests.get(uri, data=_criptografar(data))
+        response = requests.get(uri, data=_criptografar(voto))
         candidato = json.loads(response.text)
         bluez.send(candidato["mensagem"])
 

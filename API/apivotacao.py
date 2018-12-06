@@ -3,8 +3,9 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
+from base64 import b64decode
 import json
-##import eleicao
+import eleicao
 from Crypto.Cipher import AES
 
 NAME_APP = 'Eleições TSI'
@@ -13,8 +14,6 @@ passwd_criptografia = 'webservices-2018'
 UPLOAD_FOLDER = './static/imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-
-cripto = AES.new(passwd_criptografia)
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -104,13 +103,30 @@ def candidato(numero):
     return json.dumps(dados)
 
 
+def descriptografar(data):
 
+    data = json.loads(data)
+    print('data dict ', data, type(data))    
+
+    data_cript = b64decode(data['data'].encode())
+    nonce = b64decode(data['nonce'].encode())
+    
+    print('data cript', data_cript, type(data_cript))
+    print('nonce', nonce, type(nonce))
+
+    cripto = AES.new(passwd_criptografia.encode(), AES.MODE_EAX, nonce=nonce)
+    data = cripto.decrypt(data_cript)
+    print('data ', data, type(data))
+
+    return data
+    
+    
 
 @app.route('/voto/', methods=['GET'])
 def vota(numero):
     try:
-        data_cript = request.data
-        data = cripto.decrypt(data_cript)
+        data = descriptografar(request.text)
+
         if not eleicao.autenticar(data['passwd_blockchain']):
             raise Exception('Acesso a blockchain: Permissão negada!')
 
