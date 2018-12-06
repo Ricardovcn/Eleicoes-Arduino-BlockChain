@@ -8,10 +8,13 @@ import json
 from Crypto.Cipher import AES
 
 NAME_APP = 'Eleições TSI'
+passwd_criptografia = 'webservices-2018'
 
 UPLOAD_FOLDER = './static/imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+
+cripto = AES.new(passwd_criptografia)
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -103,13 +106,15 @@ def candidato(numero):
 
 
 
-@app.route('/voto/<int:numero>', methods=['GET'])
+@app.route('/voto/', methods=['GET'])
 def vota(numero):
     try:
-        cripto = AES.new("EmboraCaraPertoE")
         data_cript = request.data
         data = cripto.decrypt(data_cript)
-        status = eleicao.votar_candidato(data['Voto'])
+        if not eleicao.autenticar(data['passwd_blockchain']):
+            raise Exception('Acesso a blockchain: Permissão negada!')
+
+        status = eleicao.votar_candidato(data['voto'])
     except Exception as e:
         return json.dumps({'mensagem': 'Erro'})
         print(e)
