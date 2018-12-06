@@ -5,8 +5,8 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="GitHub Page">
+    <meta name="author" content="Lucas Heber">
 
     <title>Projeto Eleições com Arduíno e Bockchain</title>
 
@@ -15,6 +15,15 @@
 
     <!-- Custom styles for this template -->
     <link href="css/scrolling-nav.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+
+    <style media="screen">
+      * {font-family: 'Roboto', sans-serif;}
+      p {font-size: 1.3em !important; text-align: justify; padding-top: 2%}
+      h2 {font-size: 2em}
+      #text-footer {font-size: 0.9em !important}
+    </style>
 
   </head>
 
@@ -33,10 +42,10 @@
               <a class="nav-link js-scroll-trigger" href="#about">O Projeto</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">GitHub</a>
+              <a class="nav-link js-scroll-trigger" href="#install">Instalação</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+              <a class="nav-link js-scroll-trigger" href="#github">GitHub</a>
             </li>
           </ul>
         </div>
@@ -46,7 +55,7 @@
     <header class="bg-primary text-white">
       <div class="container text-center">
         <h1>Eleições TSI 2018</h1>
-        <p class="lead">Projeto desenvolvido pela turma de WebServices 2018 do TSI, IF Barbacena - MG</p>
+        <p class="lead text-center">Projeto desenvolvido pela turma de WebServices 2018 do TSI, IF Barbacena - MG</p>
       </div>
     </header>
 
@@ -74,32 +83,52 @@
       </div>
     </section>
 
-    <section id="services" class="bg-light">
+    <section id="install" class="bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>Services we offer</h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
+          <div class="col-lg-8 mx-auto ">
+            <h2>Instalação do aplicação</h2>
+
+            <p class="lead">Protótipo do Arduíno</p>
+
+            <img width="70%" src="img/prototipo.png" alt="Prototipo de Arduíno">
+
+            <p class="lead">Requirimentos</p>
+            <ul>
+              <li>Python >= 3 (pip, Flask)</li>
+              <li>Web3 e gnache-cli (veja o <a href="!#">README</a> do projeto.  )</li>
+              <li>pycrypto</li>
+            </ul>
+
+            <p class="lead">Execução</p>
+            <ul >
+              <li>Iniciar o servidor gnache-cli</li>
+              <li>Fazer o deploy do contrato eleicao na rede Blockchain</li>
+              <li>Iniciar o servidor Flask</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact">
+    <section id="github" class="bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>Contact us</h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa exercitationem, in, quo totam.</p>
+          <div class="col-lg-8 mx-auto text-center">
+            <a style="color: #000;" href="https://github.com/Ricardovcn/Eleicoes-Arduino-BlockChain">
+              <img width="90px" src="img/github-logo.jpg" alt="GitHub Reposítório">
+              <p class="text-center">Acessar</p>
+            </a>
           </div>
         </div>
       </div>
     </section>
+
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Eleições TSI 2018</p>
+        <p id="text-footer" class="m-0 text-center text-white">Copyright &copy; Eleições TSI 2018</p>
       </div>
       <!-- /.container -->
     </footer>
