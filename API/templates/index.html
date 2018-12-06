@@ -158,13 +158,21 @@
       <div class="container">
         <h1 class="text-center">Candidatos Registrados</h1>
         <br>
+
+        {% if listaVazia %}
+            <div class="mt-5 alert alert-warning" role="alert">
+                <h5 class="pt-3 pb-3 text-center">Nenhum candidato registrado!</h5>
+            </div>
+        {% else %}
         {% for candidato in listaCandidatos %}
-        <div class="alert alert-primary" role="alert">
+          <div class="alert alert-primary" role="alert">
             <h5>Nome: {{ candidato.nome }}</h5>
             <h5>Número: {{ candidato.numero }}</h5>
             <h5>Partido: {{ candidato.partido }}</h5>
           </div>
         {% endfor %}
+        {% endif %}
+        
         <div >
         </div>
       </div>
@@ -187,8 +195,19 @@
                 <h5 class="pt-3 pb-3 text-center">Nenhum candidato foi registrado para a votação!</h5>
             </div>
         {% else %}
-            <div class="col mt-4 mb-5 text-center">
-              <a type="button" class="btn btn-success" href="/apurarVotacao">Atualizar Parcias</a>
+            <div class="container text-center mb-4">
+                <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-green-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                </div>
+                <span>Atualizando...</span>
             </div>
 
             {% for cand in listaCandidatos %}

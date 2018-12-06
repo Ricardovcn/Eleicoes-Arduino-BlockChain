@@ -55,13 +55,17 @@ def verificarNumero(numeroCandidato):
 @app.route('/listaCandidatos', methods=['GET'])
 def lista():
     candidatos = eleicao.apurar_votacao()
+    if len(candidatos) == 0:
+        return render_template('index.html', nome=NAME_APP, listar=True, listaVazia=True)    
+
+
     return render_template('index.html', nome=NAME_APP, listar=True, listaCandidatos=candidatos)
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
     if totalDeVotos == 0:
         return 0
-        
+
     return round(float((votosCandidato / totalDeVotos) * 100), 2)
 
 @app.route('/apurarVotacao', methods=['GET'])
