@@ -34,11 +34,11 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:5000/listaCandidatos">Candidatos</a>
+              <a class="nav-link js-scroll-trigger" href="http://10.3.1.21:5000/listaCandidatos">Candidatos</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:5000/apurarVotacao">Apurar Votação</a>
+              <a class="nav-link js-scroll-trigger" href="http://10.3.1.21:5000/apurarVotacao">Apurar Votação</a>
             </li>
            
           </ul>
@@ -143,7 +143,6 @@
           <br>
           <br>
           <h5>{{ mensagem }}</h5>
-          
 
         </div>
       </div>
@@ -174,9 +173,34 @@
   {% endif %}
 
   {% if apurar %}
+      <br>
+      <br>
+
+      <div class="container">
+        <h2 class="text-center">Apuração de Votos</h2>
+
+        {% if listaVazia %}
+            <div class="mt-5 alert alert-danger" role="alert">
+                <h5 class="pt-3 pb-3 text-center">Nenhum candidato foi registrado para a votação!</h5>
+            </div>
+        {% else %}
+            {% for cand in listaCandidatos %}
+              <div class="alert alert-dark" role="alert">
+                <div class="row">
+                  <div class="col col-lg-4">
+                    <img src="{{ url_for('static', filename='imagens/candidato-sem-foto.png')}}" width='40' height='40'>
+                  </div>
+    
+                  <div class="col col-lg-4">
+                      Lorem Ipsum 
+                  </div>
       
-
-
+    
+                </div>            
+              </div>
+            {% endfor %}
+        {% endif %}
+      </div>
   {% endif %}
 
 

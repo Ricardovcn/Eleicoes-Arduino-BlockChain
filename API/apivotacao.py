@@ -63,30 +63,11 @@ def calcularPorcentagem(votosCandidato, totalDeVotos):
 
 @app.route('/apurarVotacao', methods=['GET'])
 def apurarVotacao():
-    return json.dumps(eleicao.apurar_votacao())
-
     candidatos = eleicao.apurar_votacao()
 
     totalDeVotos = 0
 
-    candidatos = [{
-                'numero': '17',
-                'nome': 'Bolsonaro',
-                'partido': 'PSL',
-                'votos': '3',
-            },
-            {
-                'numero': '13',
-                'nome': 'Haddad',
-                'partido': 'PT',
-                'votos': '10',
-            },
-            {
-                'numero': '12',
-                'nome': 'Ciro',
-                'partido': 'PDT',
-                'votos': '22',
-            }]
+    ##print(candidatos)
 
     for cand in candidatos:
         totalDeVotos += int(cand['votos'])
@@ -94,11 +75,15 @@ def apurarVotacao():
     for cand in candidatos:
         cand['porcentagem'] = calcularPorcentagem(int(cand['votos']), totalDeVotos)
 
+    if len(candidatos) == 0:
+        return render_template('index.html', nome=NAME_APP, apurar=True, listaVazia=True)
+
     return render_template('index.html', nome=NAME_APP, apurar=True, listaCandidatos=candidatos)
 
 
 @app.route('/candidato/<int:numero>', methods=['GET'])
 def candidato(numero):
+    print('voto')
     dados = None
     try:
         dados = eleicao.checar_candidato(numero)
@@ -114,7 +99,7 @@ def candidato(numero):
 @app.route('/voto/<int:numero>', methods=['GET'])
 def vota(numero):
     try:
-        cripto = AES.new("EmboraCaraPertoE")
+        cripto = AES.new("webservices-2018")
         data_cript = request.data
         data = cripto.decrypt(data_cript)
         status = eleicao.votar_candidato(data['Voto'])
@@ -122,19 +107,8 @@ def vota(numero):
         return json.dumps({'mensagem': 'Erro'})
         print(e)
 
-    return json.dumps({'mensagem': 'Confirmado'})
+    return json.dumps({'mensagem': 'Confirmado!'})
 
-
-
-# A partir do cadastro de um formulário, a API obtém os valores
-# escolhidos pelo usuário, e a imagem do candidato.
-# Retorna um json no formato abaixo
-# {
-#  'nome': 'Bulbassauro',
-#  'numeroCandidato': 17,
-#  'partido': 'PSL',
-#  'imagem': 'Bulbassauro.png'
-# }
 @app.route('/cadastrar', methods=['POST'])
 def cadastrarCandidato():
     chave = request.form['chave']
@@ -172,7 +146,7 @@ def cadastrarCandidato():
                 candidato['nome_imagem'] = nomeImagem
 
                 candidatos['candidatos'].append(candidato)
-                eleicao.cadastrar_candidato(nCandidato, nomeCandidato, partido, nomeImagem)
+                eleicao.cadastrar_candidato(numeroCandidato, nomeCandidato, partido, nomeImagem)
                 return render_template('index.html', nome=NAME_APP, candidatoCadastrado = candidato)
             else:
                 return paginaErros('O número fornecido não é válido ou já está registrado para outro candidato!')
@@ -182,4 +156,4 @@ def cadastrarCandidato():
         return paginaErros('A chave de segurança fornecida não é válida! Apenas usuários com a chave de segurança podem realizar o cadastro de candidatos.')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='10.3.1.21')

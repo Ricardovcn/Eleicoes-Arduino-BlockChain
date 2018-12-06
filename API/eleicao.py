@@ -20,7 +20,7 @@ def autenticar(senha):
         raise Exception("Você deve fazer o deploy do contrato novamente.")
     
     m = hashlib.md5()
-    m.update(senha)
+    m.update(senha.encode('utf-8'))
 
     if m.hexdigest() == p:
         return True
@@ -28,10 +28,10 @@ def autenticar(senha):
     return False
 
 
-def cadastrar_candidato(numero, nome, partido):
+def cadastrar_candidato(numero, nome, partido, nomeImagem):
     try:
         tx_hash = contract_eleicao.functions.adicionarCandidato(
-            numero, nome, partido
+            numero, nomeImagem, nome, partido
         ).transact()
         
         # Espera a transação ser minerada
@@ -73,7 +73,7 @@ def checar_candidato(numero):
     except BadFunctionCallOutput:
         raise Exception("Você deve fazer o deploy do contrato novamente.")
     
-    return {'nome':c[1], 'partido': c[2]}
+    return {'nome':c[2], 'partido': c[3]}
 
 
 def apurar_votacao():
@@ -85,9 +85,10 @@ def apurar_votacao():
             c = contract_eleicao.functions.getCandidato( n ).call()
             candidato = {
                 'numero': c[0],
-                'nome': c[1],
-                'partido': c[2],
-                'votos': c[3]
+                'nomeImagem': c[1],
+                'nome': c[2],
+                'partido': c[3],
+                'votos': c[4]
             }
 
             candidatos.append(candidato)
