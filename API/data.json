@@ -1,6 +1,71 @@
 {
     "abi": [
         {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_numero",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_path_foto",
+                    "type": "string"
+                },
+                {
+                    "name": "_nome",
+                    "type": "string"
+                },
+                {
+                    "name": "_partido",
+                    "type": "string"
+                }
+            ],
+            "name": "adicionarCandidato",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_password",
+                    "type": "string"
+                }
+            ],
+            "name": "setPassword",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_numero",
+                    "type": "uint256"
+                }
+            ],
+            "name": "votarCandidato",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "constant": true,
             "inputs": [
                 {
@@ -24,52 +89,15 @@
                 },
                 {
                     "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
                     "type": "uint256"
                 }
             ],
             "payable": false,
             "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "_numero",
-                    "type": "uint256"
-                }
-            ],
-            "name": "votarCandidato",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "_numero",
-                    "type": "uint256"
-                },
-                {
-                    "name": "_nome",
-                    "type": "string"
-                },
-                {
-                    "name": "_partido",
-                    "type": "string"
-                }
-            ],
-            "name": "adicionarCandidato",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -87,11 +115,19 @@
             "type": "function"
         },
         {
+            "constant": true,
             "inputs": [],
+            "name": "getPassword",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor"
+            "stateMutability": "view",
+            "type": "function"
         }
     ],
-    "contract_address": "0x897B0Ac9b72A6a98Ab9E4fD91C17939B92e5f2A5"
+    "contract_address": "0xF063D1438aC2a9d9EC1b40002F5764250A85c3A2"
 }
