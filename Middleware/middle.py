@@ -1,8 +1,12 @@
 import modulo_bluetooth as bluez
-import requests, json
+import requests, json, random, string
 from Crypto.Cipher import AES
 
-cripto = AES.new("EmboraCaraPertoE")
+passwd_criptografar = "webservices-2018"
+passwd_blockchain = "webservices-2018"
+
+cripto = AES.new(passwd_criptografar)
+endereco = '10.3.1.21:5000'
 
 def _criptografar(data):
     # Adiciona o caractere para separar o git dos dados.
@@ -24,13 +28,21 @@ while True:
     op = msg_sp[0]
     cand_num = msg_sp[1]
     if(op=="C"):
-        uri = "http://192.168.1.142:5000/candidato/"
-        response = requests.get(uri+str(cand_num))
+        uri = "http://{servidor}/candidato/{numero}".format(servidor=endereco, numero=cand_num)
+        print(uri)
+        response = requests.get(uri)
+        print(response.text)
         candidato = json.loads(response.text)
         bluez.send(candidato["nome"])
     else:
-        uri = "http://192.168.1.142:5000/voto/"
-        response = requests.get(uri, data=_criptografar({'Voto':cand_num}))
+        uri = "http://{servidor}/voto/".format(servidor=endereco)
+
+        data = {
+            'voto': cand_num, 
+            'passwd_blockchain': passwd_blockchain
+        }
+
+        response = requests.get(uri, data=_criptografar(data))
         candidato = json.loads(response.text)
         bluez.send(candidato["mensagem"])
 

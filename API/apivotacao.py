@@ -8,9 +8,12 @@ import eleicao
 from Crypto.Cipher import AES
 
 NAME_APP = 'Eleições TSI'
+passwd_criptografia = 'webservices-2018'
 
 UPLOAD_FOLDER = './static/imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -25,8 +28,6 @@ def allowed_file(filename):
 
 def paginaErros(mensagemErro):
     return render_template('index.html', nome=NAME_APP, erro=True, mensagem=mensagemErro)
-
-
 
 @app.route('/', methods=['GET'])
 def inicio():
@@ -59,7 +60,7 @@ def lista():
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
-    return float(votosCandidato * (totalDeVotos / 100))
+    return round(float(votosCandidato * (totalDeVotos / 100)), 2)
 
 @app.route('/apurarVotacao', methods=['GET'])
 def apurarVotacao():
@@ -67,16 +68,22 @@ def apurarVotacao():
 
     totalDeVotos = 0
 
-    ##print(candidatos)
+    candidatos.sort(key=lambda c: c['votos'], reverse=True)
+
+    candidatos[0]['votos'] = 24
+    candidatos[1]['votos'] = 77
 
     for cand in candidatos:
-        totalDeVotos += int(cand['votos'])
+        totalDeVotos +=  int(cand['votos'])
 
     for cand in candidatos:
         cand['porcentagem'] = calcularPorcentagem(int(cand['votos']), totalDeVotos)
 
+
     if len(candidatos) == 0:
         return render_template('index.html', nome=NAME_APP, apurar=True, listaVazia=True)
+
+    
 
     return render_template('index.html', nome=NAME_APP, apurar=True, listaCandidatos=candidatos)
 
@@ -96,16 +103,22 @@ def candidato(numero):
     return json.dumps(dados)
 
 
-@app.route('/voto/<int:numero>', methods=['GET'])
-def vota(numero):
-    try:
-        cripto = AES.new("webservices-2018")
-        data_cript = request.data
-        data = cripto.decrypt(data_cript)
-        status = eleicao.votar_candidato(data['Voto'])
-    except Exception as e:
-        return json.dumps({'mensagem': 'Erro'})
-        print(e)
+@app.route('/voto/', methods=['GET'])
+def vota():
+    
+    cripto = AES.new(passwd_criptografia.encode(), AES.MODE_EAX)
+    data_cript = request.data
+    #print(data_cript)
+    data = cripto.decrypt(data_cript)
+    #print(data)
+    data = data.decode()
+    data = data.rpartition('#')[0]
+    #print(data['passwd_blockchain'])
+    if not eleicao.autenticar(data['passwd_blockchain']):
+        raise Exception('Acesso a blockchain: Permissão negada!')
+
+    status = eleicao.votar_candidato(data['voto'])
+    
 
     return json.dumps({'mensagem': 'Confirmado!'})
 

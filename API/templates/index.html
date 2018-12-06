@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="José">
 
     <title>Eleicões {{ nome }}</title>
 
@@ -18,19 +18,20 @@
 
   </head>
 
-  <body id="page-top" style="min-height: 800px">
+  <body id="page-top" style="min-height: 100vh">
+    <div style="min-height: 100vh;" class="mt-5">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="http://127.0.0.1:5000">{{ nome }}</a>
+        <a class="navbar-brand js-scroll-trigger" href="http://10.3.1.21:5000">{{ nome }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:5000/cadastro">Cadastrar Candidato</a>
+              <a class="nav-link js-scroll-trigger" href="http://10.3.1.21:5000/cadastro">Cadastrar Candidato</a>
             </li>
 
             <li class="nav-item">
@@ -51,7 +52,7 @@
 
 
     {% if paginaInicial %}
-    <header class="valign-center" style="margin-top:100px;">
+    <header class="valign-center" style="margin-top:150px;">
       <div class="container text-center">
         <h1>Bem-vindo ao sistema de votação {{ nome }}!</h1>
         <p class="lead">O {{ nome }} é um sistema para votação simples feito em Python, usando Arduíno e Blockchain.</p>
@@ -67,7 +68,7 @@
 
     <h1 class="text-center">Cadastrar Candidato</h1>
 
-    <form method="POST" action="http://127.0.0.1:5000/cadastrar" enctype=multipart/form-data>
+    <form method="POST" action="http://10.3.1.21:5000/cadastrar" enctype=multipart/form-data>
       <br>
 
       <h2>Dados do Candidato</h2>
@@ -155,7 +156,7 @@
       <br>
 
       <div class="container">
-        <h2>Candidatos Registrados</h2>
+        <h1 class="text-center">Candidatos Registrados</h1>
         <br>
         {% for candidato in listaCandidatos %}
         <div class="alert alert-primary" role="alert">
@@ -177,22 +178,39 @@
       <br>
 
       <div class="container">
-        <h2 class="text-center">Apuração de Votos</h2>
+        <h1 class="text-center mb-5">Apuração de Votos</h1>
 
         {% if listaVazia %}
             <div class="mt-5 alert alert-danger" role="alert">
                 <h5 class="pt-3 pb-3 text-center">Nenhum candidato foi registrado para a votação!</h5>
             </div>
         {% else %}
+            <div class="col mt-4 mb-5 text-center">
+              <a type="button" class="btn btn-success" href="/apurarVotacao">Atualizar Parcias</a>
+            </div>
+
             {% for cand in listaCandidatos %}
-              <div class="alert alert-dark" role="alert">
+              <div class="alert alert-info" role="alert">
                 <div class="row">
-                  <div class="col col-lg-4">
-                    <img src="{{ url_for('static', filename='imagens/candidato-sem-foto.png')}}" width='40' height='40'>
+                  <div class="col col-lg-2">
+                    <img class="rounded-circle valign-center ml-4 mt-4" src="{{ url_for('static', filename='imagens/')}}{{cand.nomeImagem}}" width='100' height='100'>
                   </div>
     
-                  <div class="col col-lg-4">
-                      Lorem Ipsum 
+                  <div class="col col-lg-4 mt-4">
+                      <p>Nome: {{ cand.nome }}</p>
+                      <p>Número: {{ cand.numero }}</p>
+                      <p>Partido: {{ cand.partido }}</p>
+                  </div>
+
+                  <div class="col col-lg-6 mt-4">
+                    <p>Votos: {{ cand.votos }}</p>
+                    <p>
+                      <span>Percentual:</span>
+
+                      <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: {{cand.porcentagem}}%;" aria-valuenow="{{ cand.porcentagem }}" aria-valuemin="0" aria-valuemax="100">{{ cand.porcentagem }}%</div>
+                        </div>
+                    </p>
                   </div>
       
     
@@ -203,9 +221,10 @@
       </div>
   {% endif %}
 
+    </div>
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark" style=" position:absolute;bottom:0;width:100%;height: 5px;">
+    <footer class="py-5 bg-dark">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; {{ nome }} 2018</p>
       </div>
