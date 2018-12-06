@@ -11,11 +11,20 @@ w3 = None
 contract_eleicao = None
 
 def autenticar(senha):
+    try:
+        p = contract_eleicao.functions.getPassword().call()
+        
+    except ConnectionError:
+        raise Exception("Não foi possível conectar com a rede de blockchain")
+    except BadFunctionCallOutput:
+        raise Exception("Você deve fazer o deploy do contrato novamente.")
+    
     m = hashlib.md5()
     m.update(senha)
-    senha = m.hexdigest()
-    if senha == "7a3e1c7c45a215a4cbd11d441e63ec4f":
+
+    if m.hexdigest() == p:
         return True
+
     return False
 
 
