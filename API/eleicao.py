@@ -12,7 +12,7 @@ contract_eleicao = None
 
 def autenticar(senha):
     m = hashlib.md5()
-    m.update(senha)
+    m.update(senha.encode('utf-8'))
     senha = m.hexdigest()
     if senha == "7a3e1c7c45a215a4cbd11d441e63ec4f":
         return True

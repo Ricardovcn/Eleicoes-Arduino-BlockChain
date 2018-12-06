@@ -38,7 +38,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">Apurar Votação</a>
+              <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:5000/apurarVotacao">Apurar Votação</a>
             </li>
            
           </ul>
@@ -129,6 +129,25 @@
   {% endif %}
 
   {% if erro %}
+      <br>
+      <br>
+
+      <div class="container">
+          <br>
+          <br>
+          <br>
+        <div class="alert alert-danger" role="alert">
+
+          <h2>Erro!</h2>
+
+          <br>
+          <br>
+          <h5>{{ mensagem }}</h5>
+          
+
+        </div>
+      </div>
+  
   {% endif %}
 
 
@@ -142,7 +161,7 @@
         {% for candidato in listaCandidatos %}
         <div class="alert alert-primary" role="alert">
             <h5>Nome: {{ candidato.nome }}</h5>
-            <h5>Número: {{ candidato.numeroCandidato }}</h5>
+            <h5>Número: {{ candidato.numero }}</h5>
             <h5>Partido: {{ candidato.partido }}</h5>
           </div>
         {% endfor %}

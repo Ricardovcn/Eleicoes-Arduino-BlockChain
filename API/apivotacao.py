@@ -4,7 +4,7 @@ import os
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 import json
-##import eleicao
+import eleicao
 from Crypto.Cipher import AES
 
 NAME_APP = 'Eleições TSI'
@@ -15,21 +15,22 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+candidatos = {'candidatos': []}
+
 
 
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def paginaErros(mensagemErro):
+    return render_template('index.html', nome=NAME_APP, erro=True, mensagem=mensagemErro)
 
 
-@app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
+
+@app.route('/', methods=['GET'])
 def inicio():
-    if request.method == 'GET':
-        return render_template('index.html', nome=NAME_APP, paginaInicial=True)
-    else:
-        return json.dumps({'erro': 'Utilize o metodo GET para acessar essa páginas.'})
-
+    return render_template('index.html', nome=NAME_APP, paginaInicial=True)
 
 
 @app.route('/cadastro', methods=['GET'])
@@ -37,24 +38,34 @@ def paginaCadastro():
     return render_template('index.html', cadastrarCandidato=True, nome=NAME_APP)
 
 
+def verificarNumero(numeroCandidato):
+    if numeroCandidato == 0:
+        return False
+    else:
+        candidatos = eleicao.apurar_votacao()
 
+        for cand in candidatos:
+            nCand = int(cand['numero'])
 
-@app.route('/listaCandidmethodsatos', methods=['GET'])
+            if(nCand == numeroCandidato):
+                return False
+
+    return True
+
+@app.route('/listaCandidatos', methods=['GET'])
 def lista():
-    return render_template('index.html', nome=NAME_APP, listar=True, listaCandidatos=candidatos['candidatos'])
-
-
+    candidatos = eleicao.apurar_votacao()
+    return render_template('index.html', nome=NAME_APP, listar=True, listaCandidatos=candidatos)
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
     return float(votosCandidato * (totalDeVotos / 100))
 
-
-
-
 @app.route('/apurarVotacao', methods=['GET'])
 def apurarVotacao():
-    ##candidatos = eleicao.apurar_votacao()
+    return json.dumps(eleicao.apurar_votacao())
+
+    candidatos = eleicao.apurar_votacao()
 
     totalDeVotos = 0
 
@@ -86,7 +97,6 @@ def apurarVotacao():
     return render_template('index.html', nome=NAME_APP, apurar=True, listaCandidatos=candidatos)
 
 
-
 @app.route('/candidato/<int:numero>', methods=['GET'])
 def candidato(numero):
     dados = None
@@ -99,8 +109,6 @@ def candidato(numero):
         return json.dumps({'nome': 'Não existe'})
 
     return json.dumps(dados)
-
-
 
 
 @app.route('/voto/<int:numero>', methods=['GET'])
@@ -127,44 +135,51 @@ def vota(numero):
 #  'partido': 'PSL',
 #  'imagem': 'Bulbassauro.png'
 # }
-@app.route('/cadastrar', methods=['GET','POST'])
+@app.route('/cadastrar', methods=['POST'])
 def cadastrarCandidato():
-    if request.method == 'POST':
-        # Obtem o nome do candidato para salvar a imagem
+    chave = request.form['chave']
+
+    if eleicao.autenticar(chave):
         nomeCandidato = request.form['nomeCandidato']
-        nCandidato = int(request.form['numCandidato'])
+        nCandidato = request.form['numCandidato']
+        partido = request.form['partido']
 
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            print('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            print('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            # Transforma o nome da imagem obtida para o nome do candidato
-            nomeImagem = str(nCandidato) + '.' + filename.split('.')[1]
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], nomeImagem))
+        if (nomeCandidato != "") & (nCandidato != "") & (partido != ""):
+            # Obtem o nome do candidato para salvar a imagem
+            numeroCandidato = int(nCandidato)
 
-        candidato = {}
-        candidato['nome'] = nomeCandidato
-        candidato['numeroCandidato'] = nCandidato
-        candidato['partido'] = request.form['partido']
-        candidato['nome_imagem'] = nomeImagem
+            if verificarNumero(numeroCandidato):
+                # check if the post request has the file part
+                nomeImagem = ''
+                if 'file' not in request.files:
+                    nomeImagem = 'candidato-sem-foto.png'
+                else:
+                    file = request.files['file']
+                    # if user does not select file, browser also
+                    # submit a empty part without filename
+                    if file.filename == '':
+                        nomeImagem = 'candidato-sem-foto.png'
+                    if file and allowed_file(file.filename):
+                        filename = secure_filename(file.filename)
+                        # Transforma o nome da imagem obtida para o nome do candidato
+                        nomeImagem = str(nCandidato) + '.' + filename.split('.')[1]
+                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], nomeImagem))
 
-        candidatos['candidatos'].append(candidato)
-        eleicao.cadastrar_candidato(nCandidato, nomeCandidato, candidato['partido'])
-        return render_template('index.html', nome=NAME_APP, candidatoCadastrado = candidato)
+                candidato = {}
+                candidato['nome'] = nomeCandidato
+                candidato['numeroCandidato'] = numeroCandidato
+                candidato['partido'] = partido
+                candidato['nome_imagem'] = nomeImagem
 
-
-
-@app.route('/apurar', methods=['GET','POST'])
-def apurar():
-    return json.dumps(eleicao.apurar_votacao())
+                candidatos['candidatos'].append(candidato)
+                eleicao.cadastrar_candidato(nCandidato, nomeCandidato, partido, nomeImagem)
+                return render_template('index.html', nome=NAME_APP, candidatoCadastrado = candidato)
+            else:
+                return paginaErros('O número fornecido não é válido ou já está registrado para outro candidato!')
+        else:
+            return paginaErros('Os campos Nome, Número e Partido não podem estar vazios!')
+    else:
+        return paginaErros('A chave de segurança fornecida não é válida! Apenas usuários com a chave de segurança podem realizar o cadastro de candidatos.')
 
 if __name__ == '__main__':
     app.run(debug=True)
