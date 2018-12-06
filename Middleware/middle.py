@@ -6,13 +6,13 @@ from Crypto.Cipher import AES
 passwd_criptografar = "webservices-2018"
 passwd_blockchain = "webservices-2018"
 
-cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)
 endereco = '10.3.1.21:5000'
 
 def _criptografar(data):
     data_send = {}
+    cripto = AES.new(passwd_criptografar.encode(), AES.MODE_EAX)    
 
-    data_cript = cripto.encrypt(data.encode())
+    data_cript = cripto.encrypt(json.dumps(data).encode())
     data_send['data'] = b64encode(data_cript).decode()
     data_send['nonce'] = b64encode(cripto.nonce).decode()
 
