@@ -14,11 +14,6 @@ passwd_criptografia = 'webservices-2018'
 UPLOAD_FOLDER = './static/imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> cc9d31d8047f01224b92d1965fadfa0909f4c85c
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -64,7 +59,7 @@ def lista():
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
-    return round(float(votosCandidato * (totalDeVotos / 100)), 2)
+    return round(float((votosCandidato / totalDeVotos) * 100), 2)
 
 @app.route('/apurarVotacao', methods=['GET'])
 def apurarVotacao():
@@ -73,9 +68,6 @@ def apurarVotacao():
     totalDeVotos = 0
 
     candidatos.sort(key=lambda c: c['votos'], reverse=True)
-
-    candidatos[0]['votos'] = 24
-    candidatos[1]['votos'] = 77
 
     for cand in candidatos:
         totalDeVotos +=  int(cand['votos'])
@@ -94,7 +86,6 @@ def apurarVotacao():
 
 @app.route('/candidato/<int:numero>', methods=['GET'])
 def candidato(numero):
-    print('voto')
     dados = None
     try:
         dados = eleicao.checar_candidato(numero)
@@ -109,36 +100,43 @@ def candidato(numero):
 
 
 def descriptografar(data):
-
-    data = json.loads(data)
-    print('data dict ', data, type(data))    
+    #print('data dict ', data, type(data))    
 
     data_cript = b64decode(data['data'].encode())
     nonce = b64decode(data['nonce'].encode())
     
-    print('data cript', data_cript, type(data_cript))
-    print('nonce', nonce, type(nonce))
+    #print('data cript', data_cript, type(data_cript))
+    #print('nonce', nonce, type(nonce))
 
     cripto = AES.new(passwd_criptografia.encode(), AES.MODE_EAX, nonce=nonce)
     data = cripto.decrypt(data_cript)
-    print('data ', data, type(data))
+    #print('data ', data, type(data))
 
     return data
     
     
 
 @app.route('/voto/', methods=['GET'])
-def vota(numero):
+def vota():
     try:
-        data = descriptografar(request.text)
+        #print(request.form)
+        data = descriptografar(request.form)
+        data = data.decode('utf-8')
+
+        data = json.loads(data)
+
+        print(data)
 
         if not eleicao.autenticar(data['passwd_blockchain']):
             raise Exception('Acesso a blockchain: Permissão negada!')
 
-        status = eleicao.votar_candidato(data['voto'])
+        #print(data['voto'])
+
+        eleicao.votar_candidato(int(data['voto']))
     except Exception as e:
-        return json.dumps({'mensagem': 'Erro'})
         print(e)
+        return json.dumps({'mensagem': 'erro'})
+        
 
     return json.dumps({'mensagem': 'Confirmado'})
 
