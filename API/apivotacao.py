@@ -59,6 +59,9 @@ def lista():
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
+    if totalDeVotos == 0:
+        return 0
+        
     return round(float((votosCandidato / totalDeVotos) * 100), 2)
 
 @app.route('/apurarVotacao', methods=['GET'])
