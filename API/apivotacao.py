@@ -14,6 +14,10 @@ passwd_criptografia = 'webservices-2018'
 UPLOAD_FOLDER = './static/imagens'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+HOST = '192.168.1.136'
+PORT = 5000
+ADDRESS = HOST + ':' + str(PORT)
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -26,16 +30,16 @@ def allowed_file(filename):
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def paginaErros(mensagemErro):
-    return render_template('index.html', nome=NAME_APP, erro=True, mensagem=mensagemErro)
+    return render_template('index.html', nome=NAME_APP, erro=True, mensagem=mensagemErro, address=ADDRESS)
 
 @app.route('/', methods=['GET'])
 def inicio():
-    return render_template('index.html', nome=NAME_APP, paginaInicial=True)
+    return render_template('index.html', nome=NAME_APP, paginaInicial=True, address=ADDRESS)
 
 
 @app.route('/cadastro', methods=['GET'])
 def paginaCadastro():
-    return render_template('index.html', cadastrarCandidato=True, nome=NAME_APP)
+    return render_template('index.html', cadastrarCandidato=True, nome=NAME_APP, address=ADDRESS)
 
 
 def verificarNumero(numeroCandidato):
@@ -56,10 +60,10 @@ def verificarNumero(numeroCandidato):
 def lista():
     candidatos = eleicao.apurar_votacao()
     if len(candidatos) == 0:
-        return render_template('index.html', nome=NAME_APP, listar=True, listaVazia=True)    
+        return render_template('index.html', nome=NAME_APP, listar=True, listaVazia=True, address=ADDRESS)    
 
 
-    return render_template('index.html', nome=NAME_APP, listar=True, listaCandidatos=candidatos)
+    return render_template('index.html', nome=NAME_APP, listar=True, listaCandidatos=candidatos, address=ADDRESS)
 
 
 def calcularPorcentagem(votosCandidato, totalDeVotos):
@@ -84,11 +88,11 @@ def apurarVotacao():
 
 
     if len(candidatos) == 0:
-        return render_template('index.html', nome=NAME_APP, apurar=True, listaVazia=True)
+        return render_template('index.html', nome=NAME_APP, apurar=True, listaVazia=True, address=ADDRESS)
 
     
 
-    return render_template('index.html', nome=NAME_APP, apurar=True, listaCandidatos=candidatos)
+    return render_template('index.html', nome=NAME_APP, apurar=True, listaCandidatos=candidatos, address=ADDRESS)
 
 
 @app.route('/candidato/<int:numero>', methods=['GET'])
@@ -196,7 +200,7 @@ def cadastrarCandidato():
 
                 candidatos['candidatos'].append(candidato)
                 eleicao.cadastrar_candidato(numeroCandidato, nomeCandidato, partido, nomeImagem)
-                return render_template('index.html', nome=NAME_APP, candidatoCadastrado = candidato)
+                return render_template('index.html', nome=NAME_APP, candidatoCadastrado = candidato, address=ADDRESS)
             else:
                 return paginaErros('O número fornecido não é válido ou já está registrado para outro candidato!')
         else:
@@ -205,4 +209,4 @@ def cadastrarCandidato():
         return paginaErros('A chave de segurança fornecida não é válida! Apenas usuários com a chave de segurança podem realizar o cadastro de candidatos.')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='10.3.1.21')
+    app.run(debug=True, host=HOST, port=PORT)
